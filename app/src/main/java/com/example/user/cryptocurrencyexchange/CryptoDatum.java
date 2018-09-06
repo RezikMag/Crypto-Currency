@@ -2,7 +2,7 @@ package com.example.user.cryptocurrencyexchange;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CryptoDatum extends ListItem{
+public class CryptoDatum {
 
     @SerializedName("percent_change_24h")
     private double percentChange24h;

@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
         //Swipe refresh initialization and set Listener
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
         mSwipeRefreshLayout.setRefreshing(true);
-
         getCoinInfo();
     }
 
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity
                     mAdapter.notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
+
             }
 
             @Override
@@ -110,10 +111,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //Header
-    public Header getHeader(){
-        return new Header();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -158,7 +155,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListItemClick(int position) {
         Intent intent = new Intent( this, DetailActivity.class);
-        String name = ((CryptoDatum) mAdapter.getmDataset().get(position-1)).getName();
+        String name = ((CryptoDatum) mAdapter.getmDataset().get(position)).getName();
         intent.putExtra("name", name );
         Log.d("Crypto", "OnListItemClick");
         startActivity(intent);

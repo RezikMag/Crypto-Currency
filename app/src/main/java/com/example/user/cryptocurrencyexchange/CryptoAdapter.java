@@ -14,16 +14,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>
         implements Filterable {
-    private  ArrayList<ListItem> mDataset;
-    Header header;
+    private  ArrayList<CryptoDatum> mDataset;
 
     private CryptoListFilter filter;
 
-//constants to differ Header from items
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
 
     final private ListItemClickListener mOnClickListener;
 
@@ -89,21 +85,13 @@ public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    //HeaderVH
-    public class CryptoHeader extends RecyclerView.ViewHolder {
-
-        public CryptoHeader(View itemView) {
-            super(itemView);
-        }
-    }
 
     public CryptoAdapter(ListItemClickListener clickListener) {
-        header = new Header();
         mDataset = new ArrayList<>();
         mOnClickListener = clickListener;
     }
 
-    public void setCryptoData(ArrayList<ListItem> coins) {
+    public void setCryptoData(ArrayList<CryptoDatum> coins) {
         this.mDataset = coins;
         notifyDataSetChanged();
     }
@@ -112,50 +100,21 @@ public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         if (viewType == TYPE_ITEM) {
+    public CryptoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
              View v = LayoutInflater.from(parent.getContext())
                      .inflate(R.layout.crypto_item_view, parent, false);
              CryptoViewHolder vh = new CryptoViewHolder(v);
              return vh;
-         }
-        else if (viewType == TYPE_HEADER){
-             View v = LayoutInflater.from(parent.getContext())
-                     .inflate(R.layout.header_for_recycler_view,parent,false);
-            return new CryptoHeader(v);
-        }
-        throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
-
     }
 
-    private ListItem getItem(int position)
+    private CryptoDatum getItem(int position)
     {
         return mDataset.get(position);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CryptoViewHolder) {
-            CryptoViewHolder cryptoViewHolder = (CryptoViewHolder) holder;
-            cryptoViewHolder.bind((CryptoDatum) mDataset.get(position-1));
-       } else if (holder instanceof  CryptoHeader){
-
-        }
-    }
-
-
-    //    need to override this method
-    @Override
-    public int getItemViewType(int position) {
-        if(isPositionHeader(position)) {
-            return TYPE_HEADER;
-        }
-        return TYPE_ITEM;
-    }
-
-    private boolean isPositionHeader(int position)
-    {
-        return position == 0;
+    public void onBindViewHolder(CryptoViewHolder holder, int position) {
+            holder.bind( mDataset.get(position));
     }
 
 
@@ -163,11 +122,11 @@ public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mDataset == null) {
             return 0;
         }
-        return mDataset.size()+1;
+        return mDataset.size();
     }
 
 
-    public ArrayList<ListItem> getmDataset() {
+    public ArrayList<CryptoDatum> getmDataset() {
         return mDataset;
     }
 
@@ -186,10 +145,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     // class for performing search
     private class CryptoListFilter extends Filter {
         private CryptoAdapter adapter;
-        private List<ListItem> originalList;
-        private List<ListItem> filteredList;
+        private List<CryptoDatum> originalList;
+        private List<CryptoDatum> filteredList;
 
-        public CryptoListFilter(CryptoAdapter adapter, List<ListItem> originalList) {
+        public CryptoListFilter(CryptoAdapter adapter, List<CryptoDatum> originalList) {
             this.adapter = adapter;
             this.originalList = originalList;
             Log.d("Crypto", String.valueOf(this.originalList.size()));
@@ -207,10 +166,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (ListItem datum : originalList) {
-                    CryptoDatum cryptoDatum = (CryptoDatum) datum;
-                    if ((cryptoDatum.getName().toLowerCase()).contains(filterPattern)||
-                            cryptoDatum.getSymbol().toLowerCase().contains(filterPattern)) {
+                for (CryptoDatum datum : originalList) {
+//                    CryptoDatum cryptoDatum = (CryptoDatum) datum;
+                    if ((datum.getName().toLowerCase()).contains(filterPattern)||
+                            datum.getSymbol().toLowerCase().contains(filterPattern)) {
                         filteredList.add(datum);
                     }
                 }
@@ -224,7 +183,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         protected void publishResults(CharSequence constraint, FilterResults results) {
             Log.d("Crypto", "publishResults");
 
-            adapter.setCryptoData((ArrayList<ListItem>) results.values);
+            adapter.setCryptoData((ArrayList<CryptoDatum>) results.values);
             Log.d("Crypto", "Filter: " + String.valueOf(adapter.getmDataset().size()));
             adapter.notifyDataSetChanged();
         }
