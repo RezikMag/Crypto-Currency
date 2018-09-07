@@ -155,8 +155,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onListItemClick(int position) {
         Intent intent = new Intent( this, DetailActivity.class);
-        String name = ((CryptoDatum) mAdapter.getmDataset().get(position)).getName();
+       CryptoDatum cryptoDatum = mAdapter.getmDataset().get(position);
+        String name =  cryptoDatum.getName();
+        String symvol = cryptoDatum.getSymbol();
+        double price = cryptoDatum.getPriceUsd();
+        int rank = cryptoDatum.getRank();
+        double marcetCap = cryptoDatum.getMarketCap();
+        double volume24H = cryptoDatum.getVolume24H();
+        double totalSupply = cryptoDatum.getTotalSupply();
+
+        intent.putExtra("total_supply",totalSupply);
+        intent.putExtra("volume_24",volume24H);
+        intent.putExtra("capital",marcetCap);
         intent.putExtra("name", name );
+        intent.putExtra("symvol",symvol);
+        intent.putExtra("rank",rank);
+        intent.putExtra("price", price);
         Log.d("Crypto", "OnListItemClick");
         startActivity(intent);
     }

@@ -21,6 +21,27 @@ public class CryptoDatum {
 
     private int rank;
 
+    @SerializedName("market_cap_usd")
+    private double marketCap;
+
+    @SerializedName("24h_volume_usd")
+    private double volume24H;
+
+    @SerializedName("total_supply")
+    private double totalSupply;
+
+    public double getMarketCap() {
+        return marketCap;
+    }
+
+    public double getVolume24H() {
+        return volume24H;
+    }
+
+    public double getTotalSupply() {
+        return totalSupply;
+    }
+
     public int getRank() {
         return rank;
     }
