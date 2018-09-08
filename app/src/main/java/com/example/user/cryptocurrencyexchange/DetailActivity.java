@@ -10,10 +10,14 @@ import android.widget.TextView;
 import com.example.user.cryptocurrencyexchange.REST.GraphsDataConnectionApi;
 import com.example.user.cryptocurrencyexchange.formatters.MonthSlashYearFormatter;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -108,28 +112,44 @@ public class DetailActivity extends AppCompatActivity {
                 //styling
                 LineDataSet dataSet = new LineDataSet(series, name);
 
+                dataSet.setColor(Color.GREEN);
+                dataSet.setDrawCircles(false);
+
                 XAxis xAxis = chart.getXAxis();
                 xAxis.setDrawAxisLine(true);
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                 xAxis.setAvoidFirstLastClipping(true);
                 xAxis.setValueFormatter(new MonthSlashYearFormatter());
 
-                chart.getAxisLeft().setEnabled(true);
+                chart.getAxisLeft().setEnabled(false);
                 chart.getAxisLeft().setDrawGridLines(false);
-                chart.getXAxis().setDrawGridLines(false);
 
+                YAxis yAxis = chart.getAxisRight();
+                yAxis.setDrawGridLines(true);
+                xAxis.setDrawGridLines(true);
 
-                chart.setBackgroundColor(Color.parseColor("#00ffff"));
-                chart.getAxisRight().setEnabled(false);
+                yAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+
+                chart.setDragEnabled(true);
+                chart.setHighlightPerDragEnabled(true);
+
+                chart.setBackgroundColor(Color.WHITE);
+//                chart.getAxisRight().setEnabled(false);
 
                 chart.getLegend().setEnabled(false);
                 chart.setDoubleTapToZoomEnabled(false);
                 chart.setScaleEnabled(false);
 
-//               chart.getDescription().setEnabled(false);
-                chart.setContentDescription("");
+                dataSet.setDrawHorizontalHighlightIndicator(false);
+                dataSet.setHighLightColor(Color.RED);
 
-//               chart.setNoDataText(getString(R.string.noChartDataString));
+               chart.getDescription().setEnabled(false);
+
+//                chart.setDrawMarkers(true);
+                CustomMarkerView customMarkerView = new CustomMarkerView(getApplicationContext(), R.layout.highlight_textview_container);
+                customMarkerView.setChartView(chart);
+                chart.setMarker(customMarkerView);
+
 //               chart.setNoDataTextColor(R.color.darkRed);
 //               chart.setOnChartValueSelectedListener(this);
 
