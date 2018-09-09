@@ -9,7 +9,7 @@ import java.util.Date;
 public class TimeDateFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        Date date = new Date((long) value);
+        Date date = new Date((long) value*1000);
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:MM");
         return dateFormat.format(date);
     }

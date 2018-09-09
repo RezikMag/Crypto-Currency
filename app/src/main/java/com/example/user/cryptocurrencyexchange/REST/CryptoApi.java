@@ -19,6 +19,8 @@ public class CryptoApi {
         Call<JsonElement> getListings(@Query("limit") int limit);
     }
 
+
+
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()

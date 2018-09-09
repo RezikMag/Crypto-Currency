@@ -9,8 +9,8 @@ import java.util.Date;
 public class MonthSlashDayDateFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        Date date = new Date((long) value);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd");
+        Date date = new Date((long) value*1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM");
         return dateFormat.format(date);
     }
 }

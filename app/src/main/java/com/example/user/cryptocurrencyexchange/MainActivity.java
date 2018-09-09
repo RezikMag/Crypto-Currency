@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("volume_24",volume24H);
         intent.putExtra("capital",marcetCap);
         intent.putExtra("name", name );
-        intent.putExtra("symvol",symvol);
+        intent.putExtra("symbol",symvol);
         intent.putExtra("rank",rank);
         intent.putExtra("price", price);
         Log.d("Crypto", "OnListItemClick");

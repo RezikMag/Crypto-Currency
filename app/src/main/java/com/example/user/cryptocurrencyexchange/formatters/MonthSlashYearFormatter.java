@@ -10,8 +10,8 @@ import java.util.Locale;
 public class MonthSlashYearFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        Date date = new Date((long) value);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yy");
+        Date date = new Date((long) value*1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
         return dateFormat.format(date);
     }
 }
