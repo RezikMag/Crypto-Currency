@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

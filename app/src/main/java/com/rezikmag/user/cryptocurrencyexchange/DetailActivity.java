@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,18 +10,16 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.user.cryptocurrencyexchange.REST.HistoryDataApi;
-import com.example.user.cryptocurrencyexchange.formatters.MonthSlashDayDateFormatter;
-import com.example.user.cryptocurrencyexchange.formatters.MonthSlashYearFormatter;
-import com.example.user.cryptocurrencyexchange.formatters.TimeDateFormatter;
+import com.rezikmag.user.cryptocurrencyexchange.REST.HistoryDataApi;
+import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashDayDateFormatter;
+import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashYearFormatter;
+import com.rezikmag.user.cryptocurrencyexchange.formatters.TimeDateFormatter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,14 +77,15 @@ public class DetailActivity extends AppCompatActivity {
         volume24H = intent.getDoubleExtra("volume_24", -1);
         totalSupply = intent.getDoubleExtra("total_supply", -1);
 
+        NumberUtils numberUtils = new NumberUtils();
         mNameTextView.setText(name);
         mSymvolTextView.setText(symbol);
-        mPriceTextView.setText(String.format("$%.2f", price));
+        mPriceTextView.setText(numberUtils.formatPrice(price));
 
         mRankTextView.setText("#" + rank);
-        mMarcetCapView.setText("$" + (long) marcetCap);
-        mVolume24HTextView.setText("$" + (int) volume24H);
-        mTotalSupply.setText((int) totalSupply + " " + symbol);
+        mMarcetCapView.setText(numberUtils.formatPrice( marcetCap));
+        mVolume24HTextView.setText(numberUtils.formatPrice(volume24H));
+        mTotalSupply.setText(numberUtils.formatNumber(totalSupply) + " " + symbol);
 
         historyInterface = HistoryDataApi.getClient().create(HistoryDataApi.ApiInterface.class);
         chart = (LineChart) findViewById(R.id.chart);

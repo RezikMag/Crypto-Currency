@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.example.user.cryptocurrencyexchange"
+        applicationId "com.rezikmag.user.cryptocurrencyexchange"
         minSdkVersion 19
         targetSdkVersion 27
 

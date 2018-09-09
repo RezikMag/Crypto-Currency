@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.user.cryptocurrencyexchange.REST.CryptoApi;
+import com.rezikmag.user.cryptocurrencyexchange.REST.CryptoApi;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

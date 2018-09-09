@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange;
 
 import com.google.gson.annotations.SerializedName;
 

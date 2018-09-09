@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange.REST;
+package com.rezikmag.user.cryptocurrencyexchange.REST;
 
 import com.google.gson.JsonElement;
 

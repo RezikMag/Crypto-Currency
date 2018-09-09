@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -24,7 +24,7 @@ public class CustomMarkerView extends MarkerView {
 
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tvContent.setText("" + Utils.formatNumber(e.getY(), 0, true) + "$"); // set the entry-value as the display text
+        tvContent.setText(new NumberUtils().formatPrice(e.getY())); // set the entry-value as the display text
         super.refreshContent(e, highlight);
     }
 

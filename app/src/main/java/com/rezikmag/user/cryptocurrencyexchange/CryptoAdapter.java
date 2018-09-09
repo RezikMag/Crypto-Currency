@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -44,9 +44,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         }
 
         void bind(CryptoDatum coin) {
+            NumberUtils numberUtils = new NumberUtils();
             mTextName.setText(coin.getName() + "\n" + coin.getSymbol());
             mTextRank.setText(String.valueOf(coin.getRank()));
-            mTextPrice.setText(String.format("$%.2f", coin.getPriceUsd()));
+            mTextPrice.setText(numberUtils.formatPrice(coin.getPriceUsd()));
 
             mTextPriceChange1h.setText(String.format("%.2f" +"%%", coin.getPercentChange1h()));
             mTextPriceChange24h.setText(String.format("%.2f"+"%%" , coin.getPercentChange24h()));

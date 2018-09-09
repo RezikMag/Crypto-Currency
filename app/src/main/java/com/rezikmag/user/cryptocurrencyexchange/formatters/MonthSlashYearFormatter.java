@@ -1,4 +1,4 @@
-package com.example.user.cryptocurrencyexchange.formatters;
+package com.rezikmag.user.cryptocurrencyexchange.formatters;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
