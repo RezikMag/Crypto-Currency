@@ -2,7 +2,7 @@ package com.rezikmag.user.cryptocurrencyexchange;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CryptoDatum {
+public class CryptoData {
 
     @SerializedName("percent_change_24h")
     private double percentChange24h;
@@ -74,8 +74,7 @@ public class CryptoDatum {
         return symbol;
     }
 
-
-    public CryptoDatum(int rank, String name, String symbol, double priceUsd) {
+    public CryptoData(int rank, String name, String symbol, double priceUsd) {
         this.rank = rank;
         this.name = name;
         this.symbol = symbol;

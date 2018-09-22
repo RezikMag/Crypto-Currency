@@ -23,15 +23,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
-    implements CryptoAdapter.ListItemClickListener {
+        implements CryptoAdapter.ListItemClickListener {
     CryptoApi.ApiInterface api;
 
-    private RecyclerView mRecyclerView;
     private CryptoAdapter mAdapter;
 
     //Error message
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.crypto_recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.crypto_recycler_view);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
 
@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new CryptoAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-
-
 
 
         //Swipe refresh initialization and set Listener
@@ -93,7 +91,7 @@ public class MainActivity extends AppCompatActivity
                     Gson gson = new Gson();
                     for (JsonElement coin : array) {
                         JsonObject coinObj = coin.getAsJsonObject();
-                        CryptoDatum a = gson.fromJson(coinObj, CryptoDatum.class);
+                        CryptoData a = gson.fromJson(coinObj, CryptoData.class);
                         mAdapter.getmDataset().add(a);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -117,7 +115,6 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.menu, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-
 
 
         // get a reference of the AutoCompleteTextView from the searchView
@@ -154,24 +151,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListItemClick(int position) {
-        Intent intent = new Intent( this, DetailActivity.class);
-       CryptoDatum cryptoDatum = mAdapter.getmDataset().get(position);
-        String name =  cryptoDatum.getName();
-        String symvol = cryptoDatum.getSymbol();
-        double price = cryptoDatum.getPriceUsd();
-        int rank = cryptoDatum.getRank();
-        double marcetCap = cryptoDatum.getMarketCap();
-        double volume24H = cryptoDatum.getVolume24H();
-        double totalSupply = cryptoDatum.getTotalSupply();
+        Intent intent = new Intent(this, DetailActivity.class);
+        CryptoData cryptoData = mAdapter.getmDataset().get(position);
+        String name = cryptoData.getName();
+        String symvol = cryptoData.getSymbol();
+        double price = cryptoData.getPriceUsd();
+        int rank = cryptoData.getRank();
+        double marcetCap = cryptoData.getMarketCap();
+        double volume24H = cryptoData.getVolume24H();
+        double totalSupply = cryptoData.getTotalSupply();
 
-        intent.putExtra("total_supply",totalSupply);
-        intent.putExtra("volume_24",volume24H);
-        intent.putExtra("capital",marcetCap);
-        intent.putExtra("name", name );
-        intent.putExtra("symbol",symvol);
-        intent.putExtra("rank",rank);
+        intent.putExtra("total_supply", totalSupply);
+        intent.putExtra("volume_24", volume24H);
+        intent.putExtra("capital", marcetCap);
+        intent.putExtra("name", name);
+        intent.putExtra("symbol", symvol);
+        intent.putExtra("rank", rank);
         intent.putExtra("price", price);
-        Log.d("Crypto", "OnListItemClick");
+//        Log.d("Crypto", "OnListItemClick");
         startActivity(intent);
     }
 }

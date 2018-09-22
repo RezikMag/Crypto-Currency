@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -20,6 +20,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +28,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView mNameTextView;
-    TextView mSymvolTextView;
+    TextView mSymbolTextView;
     TextView mPriceTextView;
     TextView mMarcetCapView;
     TextView mVolume24HTextView;
     TextView mTotalSupply;
     TextView mRankTextView;
+
+
+    Button mChart1d;
+    Button mChart7d;
+    Button mChart1m;
+    Button mChart3m;
+    Button mChart1y;
+    Button mChartAll;
 
     String name;
     String symbol;
@@ -51,23 +60,37 @@ public class DetailActivity extends AppCompatActivity {
     List<Entry> series;
     LineChart chart;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        scrollView = findViewById(R.id.detail_scrollview);
 
-        scrollView= findViewById(R.id.detail_scrollview);
-        //Test
         Intent intent = getIntent();
         mNameTextView = findViewById(R.id.name_header);
-        mSymvolTextView = findViewById(R.id.symvol_header);
+        mSymbolTextView = findViewById(R.id.symvol_header);
         mPriceTextView = findViewById(R.id.price_detail_tv);
 
         mRankTextView = findViewById(R.id.rank_detail_tv);
         mMarcetCapView = findViewById(R.id.capital_detail_tv);
         mVolume24HTextView = findViewById(R.id.volume_24h_detail_tv);
         mTotalSupply = findViewById(R.id.total_supply_detail_tv);
+
+        mChart1d = findViewById(R.id.chart1d);
+        mChart7d = findViewById(R.id.chart7d);
+        mChart1m = findViewById(R.id.chart1M);
+        mChart3m = findViewById(R.id.chart3M);
+        mChart1y = findViewById(R.id.chart1Y);
+        mChartAll = findViewById(R.id.chartAll);
+
+        mChart1d.setOnClickListener(this);
+        mChartAll.setOnClickListener(this);
+        mChart1y.setOnClickListener(this);
+        mChart3m.setOnClickListener(this);
+        mChart1m.setOnClickListener(this);
+        mChart7d.setOnClickListener(this);
 
         rank = intent.getIntExtra("rank", -1);
         name = intent.getStringExtra("name");
@@ -79,11 +102,11 @@ public class DetailActivity extends AppCompatActivity {
 
         NumberUtils numberUtils = new NumberUtils();
         mNameTextView.setText(name);
-        mSymvolTextView.setText(symbol);
+        mSymbolTextView.setText(symbol);
         mPriceTextView.setText(numberUtils.formatPrice(price));
 
         mRankTextView.setText("#" + rank);
-        mMarcetCapView.setText(numberUtils.formatPrice( marcetCap));
+        mMarcetCapView.setText(numberUtils.formatPrice(marcetCap));
         mVolume24HTextView.setText(numberUtils.formatPrice(volume24H));
         mTotalSupply.setText(numberUtils.formatNumber(totalSupply) + " " + symbol);
 
@@ -122,6 +145,8 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 
@@ -246,28 +271,26 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-
-    public void chart1d(View view) {
-        getMinuteChartsInfo(96, 15);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.chart1d:
+                getMinuteChartsInfo(96, 15);
+                break;
+            case R.id.chart1M:
+                getHourChartsInfo(90, 8);
+                break;
+            case R.id.chart7d:
+                getHourChartsInfo(84, 2);
+                break;
+            case R.id.chart3M:
+                getDayChartsInfo(90, 1);
+                break;
+            case R.id.chart1Y:
+                getDayChartsInfo(73, 5);
+            case R.id.chartAll:
+                getDayChartsInfo(100,15);
+        }
     }
 
-    public void chart7d(View view) {
-        getHourChartsInfo(84, 2);
-    }
-
-    public void chart1M(View view) {
-        getHourChartsInfo(90, 8);
-    }
-
-    public void chart3M(View view) {
-        getDayChartsInfo(90, 1);
-    }
-
-    public void chart1Y(View view) {
-        getDayChartsInfo(73, 5);
-    }
-
-    public void chartAll(View view) {
-        getDayChartsInfo(100,15);
-    }
 }

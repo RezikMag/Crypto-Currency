@@ -5,5 +5,10 @@
         An error has occurred. Please try again by clicking REFRESH
     </string>
     <string name="action_search">Search</string>
+    <string name="total_supply">Total supply</string>
+    <string name="volume_for_24h">Volume for 24h</string>
+    <string name="capitalization">Capitalization</string>
+    <string name="rank">Rank</string>
+    <string name="information">Information</string>
 
 </resources>

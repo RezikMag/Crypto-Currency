@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>
         implements Filterable {
-    private  ArrayList<CryptoDatum> mDataset;
+    private  ArrayList<CryptoData> mDataset;
 
     private CryptoListFilter filter;
 
@@ -25,14 +25,14 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     public class CryptoViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        public TextView mTextName;
-        public TextView mTextPrice;
-        public TextView mTextRank;
-        public TextView mTextPriceChange1h;
-        public TextView mTextPriceChange24h;
-        public TextView mTextPriceChange7d;
+        TextView mTextName;
+        TextView mTextPrice;
+        TextView mTextRank;
+        TextView mTextPriceChange1h;
+        TextView mTextPriceChange24h;
+        TextView mTextPriceChange7d;
 
-        public CryptoViewHolder(View v) {
+        CryptoViewHolder(View v) {
             super(v);
             mTextRank = (TextView) v.findViewById(R.id.rank);
             mTextName = (TextView) v.findViewById(R.id.textView);
@@ -43,7 +43,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             v.setOnClickListener(this);
         }
 
-        void bind(CryptoDatum coin) {
+        void bind(CryptoData coin) {
             NumberUtils numberUtils = new NumberUtils();
             mTextName.setText(coin.getName() + "\n" + coin.getSymbol());
             mTextRank.setText(String.valueOf(coin.getRank()));
@@ -53,36 +53,26 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             mTextPriceChange24h.setText(String.format("%.2f"+"%%" , coin.getPercentChange24h()));
             mTextPriceChange7d.setText(String.format("%.2f"+"%%" , coin.getPercentChange7d()));
 
-            if (coin.getPercentChange24h() == 0) {
-                mTextPriceChange24h.setTextColor(Color.parseColor("#00FFFF"));
-            } else if (coin.getPercentChange24h() < 0) {
-                mTextPriceChange24h.setTextColor(Color.parseColor("#FF0000"));
-            } else {
-                mTextPriceChange24h.setTextColor(Color.parseColor("#00FF00"));
-            }
-
-            if (coin.getPercentChange1h() == 0) {
-                mTextPriceChange1h.setTextColor(Color.parseColor("#00FFFF"));
-            } else if (coin.getPercentChange1h() < 0) {
-                mTextPriceChange1h.setTextColor(Color.parseColor("#FF0000"));
-            } else {
-                mTextPriceChange1h.setTextColor(Color.parseColor("#00FF00"));
-            }
-
-            if (coin.getPercentChange7d() == 0) {
-                mTextPriceChange7d.setTextColor(Color.parseColor("#00FFFF"));
-            } else if (coin.getPercentChange7d() < 0) {
-                mTextPriceChange7d.setTextColor(Color.parseColor("#FF0000"));
-            } else {
-                mTextPriceChange7d.setTextColor(Color.parseColor("#00FF00"));
-            }
-
+            changeColor(coin.getPercentChange1h(),mTextPriceChange1h);
+            changeColor(coin.getPercentChange24h(),mTextPriceChange24h);
+            changeColor(coin.getPercentChange7d(),mTextPriceChange7d);
         }
 
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
             mOnClickListener.onListItemClick(position);
+        }
+
+        void changeColor(double number, TextView view){
+            if (number == 0) {
+                view.setTextColor(Color.parseColor("#00FFFF"));
+            } else if (number < 0) {
+                view.setTextColor(Color.parseColor("#FF0000"));
+            } else {
+                view.setTextColor(Color.parseColor("#00FF00"));
+            }
+
         }
     }
 
@@ -92,7 +82,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         mOnClickListener = clickListener;
     }
 
-    public void setCryptoData(ArrayList<CryptoDatum> coins) {
+    public void setCryptoData(ArrayList<CryptoData> coins) {
         this.mDataset = coins;
         notifyDataSetChanged();
     }
@@ -103,12 +93,12 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     @Override
     public CryptoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
              View v = LayoutInflater.from(parent.getContext())
-                     .inflate(R.layout.crypto_item_view, parent, false);
+                     .inflate(R.layout.item_crypto_view, parent, false);
              CryptoViewHolder vh = new CryptoViewHolder(v);
              return vh;
     }
 
-    private CryptoDatum getItem(int position)
+    private CryptoData getItem(int position)
     {
         return mDataset.get(position);
     }
@@ -127,7 +117,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     }
 
 
-    public ArrayList<CryptoDatum> getmDataset() {
+    public ArrayList<CryptoData> getmDataset() {
         return mDataset;
     }
 
@@ -146,10 +136,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     // class for performing search
     private class CryptoListFilter extends Filter {
         private CryptoAdapter adapter;
-        private List<CryptoDatum> originalList;
-        private List<CryptoDatum> filteredList;
+        private List<CryptoData> originalList;
+        private List<CryptoData> filteredList;
 
-        public CryptoListFilter(CryptoAdapter adapter, List<CryptoDatum> originalList) {
+        public CryptoListFilter(CryptoAdapter adapter, List<CryptoData> originalList) {
             this.adapter = adapter;
             this.originalList = originalList;
             Log.d("Crypto", String.valueOf(this.originalList.size()));
@@ -167,8 +157,8 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (CryptoDatum datum : originalList) {
-//                    CryptoDatum cryptoDatum = (CryptoDatum) datum;
+                for (CryptoData datum : originalList) {
+//                    CryptoData cryptoData= (CryptoData) datum;
                     if ((datum.getName().toLowerCase()).contains(filterPattern)||
                             datum.getSymbol().toLowerCase().contains(filterPattern)) {
                         filteredList.add(datum);
@@ -184,7 +174,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         protected void publishResults(CharSequence constraint, FilterResults results) {
             Log.d("Crypto", "publishResults");
 
-            adapter.setCryptoData((ArrayList<CryptoDatum>) results.values);
+            adapter.setCryptoData((ArrayList<CryptoData>) results.values);
             Log.d("Crypto", "Filter: " + String.valueOf(adapter.getmDataset().size()));
             adapter.notifyDataSetChanged();
         }

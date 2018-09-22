@@ -14,7 +14,6 @@ public class CryptoApi {
     public static final String BASE_URL ="https://api.coinmarketcap.com/v1/";
 
     public interface ApiInterface{
-
         @GET("ticker")
         Call<JsonElement> getListings(@Query("limit") int limit);
     }

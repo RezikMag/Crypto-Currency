@@ -77,7 +77,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="chart1d"
+                android:id="@+id/chart1d"
                 android:text="1Д"
                 android:textSize="14sp" />
 
@@ -85,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="chart7d"
+                android:id="@+id/chart7d"
                 android:text="7Д"
                 android:textSize="14sp" />
 
@@ -93,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="chart1M"
+                android:id="@+id/chart1M"
                 android:text="1M"
                 android:textSize="14sp" />
 
@@ -101,7 +101,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="chart3M"
+                android:id="@+id/chart3M"
                 android:text="3M"
                 android:textSize="14sp" />
 
@@ -110,7 +110,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="chart1Y"
+                android:id="@+id/chart1Y"
                 android:text="1Г"
                 android:textSize="14sp" />
 
@@ -118,13 +118,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="chartAll"
+                android:id="@+id/chartAll"
                 android:text="ALL"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
-        <include layout="@layout/detail_info" />
+        <include layout="@layout/container_detail_info" />
 
     </LinearLayout>
 </ScrollView>

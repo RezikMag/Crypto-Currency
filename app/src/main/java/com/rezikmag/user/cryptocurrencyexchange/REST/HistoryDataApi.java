@@ -17,7 +17,6 @@ import retrofit2.http.Query;
 public class HistoryDataApi {
 
     private static Retrofit retrofit = null;
-
     public static final String BASE_URL = "https://min-api.cryptocompare.com/data/";
 
     public interface ApiInterface {
@@ -34,8 +33,6 @@ public class HistoryDataApi {
                                            @Query("limit") int limit) ;
 
     }
-
-
 
     public static Retrofit getClient() {
         if (retrofit == null) {
