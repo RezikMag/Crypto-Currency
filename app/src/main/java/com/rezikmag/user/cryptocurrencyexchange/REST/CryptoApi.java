@@ -1,9 +1,13 @@
 package com.rezikmag.user.cryptocurrencyexchange.REST;
 
 import com.google.gson.JsonElement;
+import com.rezikmag.user.cryptocurrencyexchange.CryptoData;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -15,7 +19,7 @@ public class CryptoApi {
 
     public interface ApiInterface{
         @GET("ticker")
-        Call<JsonElement> getListings(@Query("limit") int limit);
+        Call<List<CryptoData>> getListings(@Query("limit") int limit);
     }
 
 
@@ -25,6 +29,7 @@ public class CryptoApi {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         return retrofit;

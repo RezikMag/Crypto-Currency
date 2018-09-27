@@ -90,7 +90,8 @@
             android:id="@+id/crypto_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
         <TextView
             android:id="@+id/tv_error_message_display"

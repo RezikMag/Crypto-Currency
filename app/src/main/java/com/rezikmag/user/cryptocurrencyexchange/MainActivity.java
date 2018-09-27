@@ -24,6 +24,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,7 +46,6 @@ public class MainActivity extends AppCompatActivity
 
 
     Toolbar mToolbar;
-    //SwipeRefreshLayout for updating data by swipe down
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -47,13 +53,32 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        mToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.crypto_recycler_view);
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        RecyclerView mRecyclerView = findViewById(R.id.crypto_recycler_view);
+        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
+  /*      ApiCoins apiCoins = CryptoApi.getClient().create(ApiCoins.class);
+        apiCoins.getCoins(0)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<CryptoData>>() {
 
+                    @Override
+                    public void onSuccess(List<CryptoData> cryptoData) {
+                        Log.d("Tag", "" + cryptoData.size());
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Tag", e.getMessage());
+                    }
+                });
+
+*/
         api = CryptoApi.getClient().create(CryptoApi.ApiInterface.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
@@ -79,21 +104,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getCoinInfo() {
-        Call<JsonElement> callCoins = api.getListings(0);
-        callCoins.enqueue(new Callback<JsonElement>() {
+        Call<List<CryptoData>> callCoins = api.getListings(0);
+        callCoins.enqueue(new Callback<List<CryptoData>>() {
             @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+            public void onResponse(Call<List<CryptoData>> call, Response<List<CryptoData>> response) {
 
                 Log.d("Crypto", "on Response Call ");
                 if (response.isSuccessful()) {
-                    JsonElement data = response.body();
-                    JsonArray array = data.getAsJsonArray();
-                    Gson gson = new Gson();
-                    for (JsonElement coin : array) {
-                        JsonObject coinObj = coin.getAsJsonObject();
-                        CryptoData a = gson.fromJson(coinObj, CryptoData.class);
-                        mAdapter.getmDataset().add(a);
-                    }
+                    mAdapter.getmDataset().addAll(response.body());
                     mAdapter.notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
@@ -101,7 +119,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(Call<JsonElement> call, Throwable t) {
+            public void onFailure(Call<List<CryptoData>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -168,7 +186,6 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("symbol", symvol);
         intent.putExtra("rank", rank);
         intent.putExtra("price", price);
-//        Log.d("Crypto", "OnListItemClick");
         startActivity(intent);
     }
 }
