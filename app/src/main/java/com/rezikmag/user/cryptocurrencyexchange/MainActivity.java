@@ -18,22 +18,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rezikmag.user.cryptocurrencyexchange.REST.ApiCoins;
 import com.rezikmag.user.cryptocurrencyexchange.REST.CryptoApi;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements CryptoAdapter.ListItemClickListener {
@@ -59,27 +51,6 @@ public class MainActivity extends AppCompatActivity
         RecyclerView mRecyclerView = findViewById(R.id.crypto_recycler_view);
         mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
-  /*      ApiCoins apiCoins = CryptoApi.getClient().create(ApiCoins.class);
-        apiCoins.getCoins(0)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<CryptoData>>() {
-
-                    @Override
-                    public void onSuccess(List<CryptoData> cryptoData) {
-                        Log.d("Tag", "" + cryptoData.size());
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Tag", e.getMessage());
-                    }
-                });
-
-*/
-        api = CryptoApi.getClient().create(CryptoApi.ApiInterface.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         mRecyclerView.setLayoutManager(layoutManager);
@@ -104,27 +75,28 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getCoinInfo() {
-        Call<List<CryptoData>> callCoins = api.getListings(0);
-        callCoins.enqueue(new Callback<List<CryptoData>>() {
-            @Override
-            public void onResponse(Call<List<CryptoData>> call, Response<List<CryptoData>> response) {
+        ApiCoins apiCoins = CryptoApi.getClient().create(ApiCoins.class);
+        apiCoins.getCoins(0)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<CryptoData>>() {
 
-                Log.d("Crypto", "on Response Call ");
-                if (response.isSuccessful()) {
-                    mAdapter.getmDataset().addAll(response.body());
-                    mAdapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
+                    @Override
+                    public void onSuccess(List<CryptoData> cryptoData) {
+                        Log.d("Tag", "" + cryptoData.size());
+                        mAdapter.getmDataset().addAll(cryptoData);
+                        mAdapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
 
-            }
-
-            @Override
-            public void onFailure(Call<List<CryptoData>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Tag", e.getMessage());
+                        Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
     }
 
 
