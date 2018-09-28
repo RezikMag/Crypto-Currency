@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange.adapters;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
+import com.rezikmag.user.cryptocurrencyexchange.NumberUtils;
+import com.rezikmag.user.cryptocurrencyexchange.R;
+import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
 
 import java.util.ArrayList;
 import java.util.List;

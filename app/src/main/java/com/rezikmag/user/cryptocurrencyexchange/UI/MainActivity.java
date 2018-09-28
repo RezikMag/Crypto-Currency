@@ -1,6 +1,5 @@
-package com.rezikmag.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange.UI;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,30 +11,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.rezikmag.user.cryptocurrencyexchange.REST.CryptoApi;
 
+import com.rezikmag.user.cryptocurrencyexchange.MainContract;
+import com.rezikmag.user.cryptocurrencyexchange.MainPresenter;
+import com.rezikmag.user.cryptocurrencyexchange.R;
+import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
+import com.rezikmag.user.cryptocurrencyexchange.adapters.CryptoAdapter;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
-
 public class MainActivity extends AppCompatActivity
-        implements CryptoAdapter.ListItemClickListener {
+        implements MainContract.View, CryptoAdapter.ListItemClickListener {
 
     private CryptoAdapter mAdapter;
-
-    //Error message
-    private TextView mErrorMessageDisplay;
-
-
+    MainPresenter mainPresenter;
     Toolbar mToolbar;
     SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +40,15 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
 
         RecyclerView mRecyclerView = findViewById(R.id.crypto_recycler_view);
-        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new CryptoAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
+        mainPresenter = new MainPresenter(this);
 
         //Swipe refresh initialization and set Listener
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
@@ -62,38 +56,16 @@ public class MainActivity extends AppCompatActivity
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        mAdapter.getmDataset().clear();
-                        getCoinInfo();
+                        getCoinIns();
                         Log.d("Crypto", "OnRefresh: " + String.valueOf(mAdapter.getmDataset().size()));
                     }
                 });
-        mSwipeRefreshLayout.setRefreshing(true);
-        getCoinInfo();
+        showProgress();
+        getCoinIns();
     }
 
-    public void getCoinInfo() {
-        CryptoApi.ApiCoins apiCoins = CryptoApi.getClient().create(CryptoApi.ApiCoins.class);
-        apiCoins.getCoins(0)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<CryptoData>>() {
-
-                    @Override
-                    public void onSuccess(List<CryptoData> cryptoData) {
-                        Log.d("Tag", "" + cryptoData.size());
-                        mAdapter.getmDataset().addAll(cryptoData);
-                        mAdapter.notifyDataSetChanged();
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Tag", e.getMessage());
-                        Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
+    public void getCoinIns() {
+            mainPresenter.getCoins();
     }
 
 
@@ -103,8 +75,7 @@ public class MainActivity extends AppCompatActivity
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
 
-
-        // get a reference of the AutoCompleteTextView from the searchView
+        /*// get a reference of the AutoCompleteTextView from the searchView
         AutoCompleteTextView searchSrcText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchSrcText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -114,7 +85,7 @@ public class MainActivity extends AppCompatActivity
                     inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
-        });
+        });*/
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -138,23 +109,38 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onListItemClick(int position) {
-        Intent intent = new Intent(this, DetailActivity.class);
         CryptoData cryptoData = mAdapter.getmDataset().get(position);
         String name = cryptoData.getName();
         String symbol = cryptoData.getSymbol();
         double price = cryptoData.getPriceUsd();
         int rank = cryptoData.getRank();
-        double marcetCap = cryptoData.getMarketCap();
+        double marketCap = cryptoData.getMarketCap();
         double volume24H = cryptoData.getVolume24H();
         double totalSupply = cryptoData.getTotalSupply();
 
-        intent.putExtra("total_supply", totalSupply);
-        intent.putExtra("volume_24", volume24H);
-        intent.putExtra("capital", marcetCap);
-        intent.putExtra("name", name);
-        intent.putExtra("symbol", symbol);
-        intent.putExtra("rank", rank);
-        intent.putExtra("price", price);
-        startActivity(intent);
+        DetailActivity.StartDetails(this,rank, name,symbol,price,marketCap,volume24H,totalSupply);
     }
+
+    @Override
+    public void showProgress() {
+        mSwipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showErrorDialog() {
+        Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDataToRecycler(List<CryptoData> cryptoData) {
+        if (cryptoData!=null){
+                mAdapter.setCryptoData((ArrayList<CryptoData>) cryptoData);
+        }
+    }
+
 }

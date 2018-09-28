@@ -1,5 +1,6 @@
-package com.rezikmag.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange.UI;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,11 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.rezikmag.user.cryptocurrencyexchange.REST.HistoryDataApi;
+import com.rezikmag.user.cryptocurrencyexchange.CustomMarkerView;
+import com.rezikmag.user.cryptocurrencyexchange.repository.HistoryData;
+import com.rezikmag.user.cryptocurrencyexchange.NumberUtils;
+import com.rezikmag.user.cryptocurrencyexchange.R;
+import com.rezikmag.user.cryptocurrencyexchange.network.HistoryDataApi;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashDayDateFormatter;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashYearFormatter;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.TimeDateFormatter;
@@ -266,9 +271,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         //refresh
-
         chart.invalidate();
+    }
 
+    public static void StartDetails(Context context, int rank, String name,
+                                    String symbol,double price, double marketCap,double volume24H, double totalSupply){
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra("total_supply", totalSupply);
+        intent.putExtra("volume_24", volume24H);
+        intent.putExtra("capital", marketCap);
+        intent.putExtra("name", name);
+        intent.putExtra("symbol", symbol);
+        intent.putExtra("rank", rank);
+        intent.putExtra("price", price);
+        context.startActivity(intent);
     }
 
     @Override

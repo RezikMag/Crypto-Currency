@@ -7,5 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    
+    <style name = "myCustomMenu" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+    <item name= "spinBars">true</item>
+    <item name="color">@android:color/white</item>
+    </style>
 
 </resources>

@@ -1,29 +1,27 @@
-package com.rezikmag.user.cryptocurrencyexchange.REST;
+package com.rezikmag.user.cryptocurrencyexchange.network;
 
-import com.google.gson.JsonElement;
-import com.rezikmag.user.cryptocurrencyexchange.CryptoData;
+import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public class CryptoApi {
+public class CryptoNetworkClient {
     private static Retrofit retrofit = null;
 
     public static final String BASE_URL ="https://api.coinmarketcap.com/v1/";
 
     public interface ApiCoins {
         @GET("ticker")
-        Single<List<CryptoData>> getCoins(@Query("limit") int limit);
+        Observable<List<CryptoData>> getCoins(@Query("limit") int limit);
     }
-
-
 
     public static Retrofit getClient() {
         if (retrofit == null) {

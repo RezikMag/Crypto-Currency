@@ -1,11 +1,6 @@
-package com.rezikmag.user.cryptocurrencyexchange.REST;
+package com.rezikmag.user.cryptocurrencyexchange.network;
 
-import android.support.v7.widget.CardView;
-
-import com.rezikmag.user.cryptocurrencyexchange.HistoryData;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.rezikmag.user.cryptocurrencyexchange.HistoryData;
+import com.rezikmag.user.cryptocurrencyexchange.repository.HistoryData;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
