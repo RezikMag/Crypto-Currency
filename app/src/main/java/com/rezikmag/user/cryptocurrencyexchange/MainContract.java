@@ -13,7 +13,6 @@ public interface MainContract  {
     }
 
     interface Presenter{
-        void onSearchViewClicked();
         void getCoins();
         void onDestroy();
     }
