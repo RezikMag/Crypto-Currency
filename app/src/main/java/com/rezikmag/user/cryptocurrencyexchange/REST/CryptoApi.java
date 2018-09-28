@@ -5,6 +5,7 @@ import com.rezikmag.user.cryptocurrencyexchange.CryptoData;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -17,9 +18,9 @@ public class CryptoApi {
 
     public static final String BASE_URL ="https://api.coinmarketcap.com/v1/";
 
-    public interface ApiInterface{
+    public interface ApiCoins {
         @GET("ticker")
-        Call<List<CryptoData>> getListings(@Query("limit") int limit);
+        Single<List<CryptoData>> getCoins(@Query("limit") int limit);
     }
 
 

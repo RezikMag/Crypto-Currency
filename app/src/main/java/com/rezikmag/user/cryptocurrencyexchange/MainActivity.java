@@ -17,8 +17,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.rezikmag.user.cryptocurrencyexchange.REST.ApiCoins;
 import com.rezikmag.user.cryptocurrencyexchange.REST.CryptoApi;
 
 import java.util.List;
@@ -29,7 +27,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
         implements CryptoAdapter.ListItemClickListener {
-    CryptoApi.ApiInterface api;
 
     private CryptoAdapter mAdapter;
 
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getCoinInfo() {
-        ApiCoins apiCoins = CryptoApi.getClient().create(ApiCoins.class);
+        CryptoApi.ApiCoins apiCoins = CryptoApi.getClient().create(CryptoApi.ApiCoins.class);
         apiCoins.getCoins(0)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.computation())
@@ -144,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, DetailActivity.class);
         CryptoData cryptoData = mAdapter.getmDataset().get(position);
         String name = cryptoData.getName();
-        String symvol = cryptoData.getSymbol();
+        String symbol = cryptoData.getSymbol();
         double price = cryptoData.getPriceUsd();
         int rank = cryptoData.getRank();
         double marcetCap = cryptoData.getMarketCap();
@@ -155,7 +152,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("volume_24", volume24H);
         intent.putExtra("capital", marcetCap);
         intent.putExtra("name", name);
-        intent.putExtra("symbol", symvol);
+        intent.putExtra("symbol", symbol);
         intent.putExtra("rank", rank);
         intent.putExtra("price", price);
         startActivity(intent);
