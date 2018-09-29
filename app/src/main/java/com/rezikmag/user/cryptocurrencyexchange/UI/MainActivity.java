@@ -1,6 +1,5 @@
 package com.rezikmag.user.cryptocurrencyexchange.UI;
 
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,9 +25,9 @@ public class MainActivity extends AppCompatActivity
         implements MainContract.View, CryptoAdapter.ListItemClickListener {
 
     private CryptoAdapter mAdapter;
-    MainPresenter mainPresenter;
-    Toolbar mToolbar;
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    private MainContract.Presenter mainPresenter;
+    private Toolbar mToolbar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getCoinIns() {
-            mainPresenter.getCoins();
+        mainPresenter.getCoins();
     }
 
 
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         double volume24H = cryptoData.getVolume24H();
         double totalSupply = cryptoData.getTotalSupply();
 
-        DetailActivity.StartDetails(this,rank, name,symbol,price,marketCap,volume24H,totalSupply);
+        DetailActivity.StartDetails(this, rank, name, symbol, price, marketCap, volume24H, totalSupply);
     }
 
     @Override
@@ -138,9 +137,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showDataToRecycler(List<CryptoData> cryptoData) {
-        if (cryptoData!=null){
-                mAdapter.setCryptoData((ArrayList<CryptoData>) cryptoData);
+        if (cryptoData != null) {
+            mAdapter.setCryptoData((ArrayList<CryptoData>) cryptoData);
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.onDestroy();
+    }
 }

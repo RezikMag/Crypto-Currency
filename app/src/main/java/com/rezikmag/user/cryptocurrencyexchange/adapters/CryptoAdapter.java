@@ -11,7 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.rezikmag.user.cryptocurrencyexchange.NumberUtils;
+import com.rezikmag.user.cryptocurrencyexchange.formatters.NumberUtils;
 import com.rezikmag.user.cryptocurrencyexchange.R;
 import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
 

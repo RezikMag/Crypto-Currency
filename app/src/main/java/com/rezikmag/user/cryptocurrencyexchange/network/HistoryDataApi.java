@@ -2,8 +2,10 @@ package com.rezikmag.user.cryptocurrencyexchange.network;
 
 import com.rezikmag.user.cryptocurrencyexchange.repository.HistoryData;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -17,16 +19,10 @@ public class HistoryDataApi {
     public interface ApiInterface {
 
         @GET("{time}?tsym=USD")
-        Call<HistoryData> getData(@Path("time") String timeUnits,
-                                  @Query("fsym") String symbol,
-                                  @Query("limit") int limit);
-
-        @GET("{time}?tsym=USD")
-        Call<HistoryData> getAgregatedData(@Path("time") String timeUnits,
-                                           @Query("fsym") String symbol,
-                                           @Query("aggregate") int quantity,
-                                           @Query("limit") int limit) ;
-
+        Observable<HistoryData> getData(@Path("time") String timeUnits,
+                                        @Query("fsym") String symbol,
+                                        @Query("aggregate") int quantity,
+                                        @Query("limit") int limit) ;
     }
 
     public static Retrofit getClient() {
@@ -34,6 +30,7 @@ public class HistoryDataApi {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         return retrofit;

@@ -7,7 +7,7 @@ import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
-import com.github.mikephil.charting.utils.Utils;
+import com.rezikmag.user.cryptocurrencyexchange.formatters.NumberUtils;
 
 public class CustomMarkerView extends MarkerView {
 

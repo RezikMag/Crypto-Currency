@@ -9,7 +9,7 @@ public class HistoryData {
 
     @SerializedName("Data")
     @Expose
-    private List<Datum> data = null;
+    private List<Datum> data;
 
     public List<Datum> getData() {
         return data;
@@ -24,10 +24,10 @@ public class HistoryData {
         private Double close;
 
         @SerializedName("volumefrom")
-        private Double volumefrom;
+        private Double volumeFrom;
 
-        @SerializedName("volumeto")
-        private Double volumeto;
+        @SerializedName("volumeTo")
+        private Double volumeTo;
 
 
 
@@ -42,12 +42,12 @@ public class HistoryData {
 
 
         public Double getVolumefrom() {
-            return volumefrom;
+            return volumeFrom;
         }
 
 
-        public Double getVolumeto() {
-            return volumeto;
+        public Double getVolumeTo() {
+            return volumeTo;
         }
 
     }

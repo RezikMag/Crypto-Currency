@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange.formatters;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -6,10 +6,9 @@ import java.util.Locale;
 
 public class NumberUtils {
 
-    private DecimalFormat numberFormat;
 
-    public String formatPrice(double price) {
-        numberFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
+    public static String formatPrice(double price) {
+        DecimalFormat numberFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
         if (price >= 1000) {
             numberFormat.setMaximumFractionDigits(0);
         } else if (price >= 1) {
@@ -22,8 +21,8 @@ public class NumberUtils {
         return numberFormat.format(price);
     }
 
-    public String formatNumber(double number) {
-        numberFormat = (DecimalFormat) NumberFormat.getNumberInstance();
+    public static String formatNumber(double number) {
+       NumberFormat numberFormat = NumberFormat.getNumberInstance();
         return numberFormat.format(number);
     }
 }

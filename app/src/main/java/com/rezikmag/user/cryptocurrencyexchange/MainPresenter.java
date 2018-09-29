@@ -26,7 +26,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void getCoins() {
-
         disposable = CryptoNetworkClient.getClient().create(CryptoNetworkClient.ApiCoins.class)
                 .getCoins(0)
                 .observeOn(AndroidSchedulers.mainThread())
