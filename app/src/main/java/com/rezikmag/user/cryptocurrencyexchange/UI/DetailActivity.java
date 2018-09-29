@@ -17,7 +17,6 @@ import com.rezikmag.user.cryptocurrencyexchange.DetailContract;
 import com.rezikmag.user.cryptocurrencyexchange.DetailPresenter;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.NumberUtils;
 import com.rezikmag.user.cryptocurrencyexchange.R;
-import com.rezikmag.user.cryptocurrencyexchange.network.HistoryDataApi;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashDayDateFormatter;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashYearFormatter;
 import com.rezikmag.user.cryptocurrencyexchange.formatters.TimeDateFormatter;
