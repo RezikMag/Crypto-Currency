@@ -32,7 +32,6 @@ import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
     private String name;
-    HistoryDataApi.ApiInterface historyInterface;
     ScrollView scrollView;
 
     private LineChart chart;
@@ -208,23 +207,27 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     @Override
     public void showData(List<Entry> entryList, int style, String timeUnits) {
         styleChart(entryList);
-        if (timeUnits.equals("histoday")) {
-            if (style <= 365) {
-                chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
-            } else {
-                chart.getXAxis().setValueFormatter(new MonthSlashYearFormatter());
-            }
-            chart.getXAxis().setLabelCount(4);
-        } else if (timeUnits.equals("histohour")) {
-            if (style > 165) {
-                chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
+        switch (timeUnits) {
+            case "histoday":
+                if (style <= 365) {
+                    chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
+                } else {
+                    chart.getXAxis().setValueFormatter(new MonthSlashYearFormatter());
+                }
                 chart.getXAxis().setLabelCount(4);
-            }
-        } else if (timeUnits.equals("histominute")) {
-            if (style < 2000) {
-                chart.getXAxis().setValueFormatter(new TimeDateFormatter());
-                chart.getXAxis().setLabelCount(4);
-            }
+                break;
+            case "histohour":
+                if (style > 165) {
+                    chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
+                    chart.getXAxis().setLabelCount(4);
+                }
+                break;
+            case "histominute":
+                if (style < 2000) {
+                    chart.getXAxis().setValueFormatter(new TimeDateFormatter());
+                    chart.getXAxis().setLabelCount(4);
+                }
+                break;
         }
     }
 
