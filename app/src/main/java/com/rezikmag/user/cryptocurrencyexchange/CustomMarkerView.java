@@ -1,6 +1,9 @@
 package com.rezikmag.user.cryptocurrencyexchange;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
@@ -16,6 +19,7 @@ public class CustomMarkerView extends MarkerView {
     public CustomMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
         // this markerview only displays a textview
+
         tvContent = (TextView) findViewById(R.id.tvContent);
     }
 
@@ -30,6 +34,17 @@ public class CustomMarkerView extends MarkerView {
 
     @Override
     public MPPointF getOffset() {
-        return new MPPointF(-(getWidth() / 2), -getHeight());
+        return new MPPointF(-(getWidth() / 2), 0);
+    }
+
+
+    @Override
+    public void draw(Canvas canvas, float posX, float posY) {
+        posX += getOffset().x;
+        posY = 0;
+
+        canvas.translate(posX, posY);
+        draw(canvas);
+        canvas.translate(-posX, -posY);
     }
 }

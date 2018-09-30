@@ -1,5 +1,8 @@
 package com.rezikmag.user.cryptocurrencyexchange.UI;
 
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.rezikmag.user.cryptocurrencyexchange.ErrorDialogFragment;
 import com.rezikmag.user.cryptocurrencyexchange.MainContract;
 import com.rezikmag.user.cryptocurrencyexchange.MainPresenter;
 import com.rezikmag.user.cryptocurrencyexchange.R;
@@ -132,7 +136,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showErrorDialog() {
-        Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getSupportFragmentManager();
+        DialogFragment fragment = ErrorDialogFragment.newInstance();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(fragment,"error dialog");
+        transaction.commit();
+//        Toast.makeText(MainActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
     }
 
     @Override

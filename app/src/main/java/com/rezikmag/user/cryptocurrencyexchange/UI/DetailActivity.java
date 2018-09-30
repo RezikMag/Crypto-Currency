@@ -30,8 +30,19 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
+    private static final String DAY_FRAME = "histoday";
+    private static final String HOUR_FRAME = "histohour";
+    private static final String MINUTE_FRAME = "histominute";
+    static final String TOTAL_SUPPLY = "total_supply";
+    static final String RANK = "rank";
+   static final String SYMBOL = "symbol";
+   static final String PRICE = "price";
+   static final String NAME = "name";
+   static final String MARKET_CAP = "capital";
+   static final String DAY_VOLUME="volume_24";
+
     private String name;
-    ScrollView scrollView;
+    private ScrollView scrollView;
 
     private LineChart chart;
     DetailContract.Presenter presenter;
@@ -59,32 +70,32 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         Button mChart1y = findViewById(R.id.chart1Y);
         Button mChartAll = findViewById(R.id.chartAll);
 
-        int rank = intent.getIntExtra("rank", -1);
-        name = intent.getStringExtra("name");
-        final String symbol = intent.getStringExtra("symbol");
-        double price = intent.getDoubleExtra("price", -1);
-        double marcetCap = intent.getDoubleExtra("capital", -1);
-        double volume24H = intent.getDoubleExtra("volume_24", -1);
-        double totalSupply = intent.getDoubleExtra("total_supply", -1);
+        int rank = intent.getIntExtra(RANK, -1);
+        name = intent.getStringExtra(NAME);
+        final String symbol = intent.getStringExtra(SYMBOL);
+        double price = intent.getDoubleExtra(PRICE, -1);
+        double marketCap = intent.getDoubleExtra(MARKET_CAP, -1);
+        double volume24H = intent.getDoubleExtra(DAY_VOLUME, -1);
+        double totalSupply = intent.getDoubleExtra(TOTAL_SUPPLY, -1);
 
         mChart1d.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getData("histominute", symbol, 15, 96);
+                presenter.getData(MINUTE_FRAME, symbol, 15, 96);
             }
         });
 
         mChart7d.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getData("histohour", symbol, 2, 84);
+                presenter.getData(HOUR_FRAME, symbol, 2, 84);
             }
         });
 
         mChart1m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getData("histohour", symbol, 8, 90);
+                presenter.getData(HOUR_FRAME, symbol, 8, 90);
 
             }
         });
@@ -92,21 +103,21 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         mChart3m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getData("histoday", symbol, 1, 90);
+                presenter.getData(DAY_FRAME, symbol, 1, 90);
             }
         });
 
         mChart1y.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getData("histoday", symbol, 5, 73);
+                presenter.getData(DAY_FRAME, symbol, 5, 73);
             }
         });
 
         mChartAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getData("histohour", symbol, 15, 100);
+                presenter.getData(DAY_FRAME, symbol, 15, 100);
             }
         });
 
@@ -115,14 +126,14 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         mPriceTextView.setText(NumberUtils.formatPrice(price));
 
         mRankTextView.setText("#" + rank);
-        mMarketCapView.setText(NumberUtils.formatPrice(marcetCap));
+        mMarketCapView.setText(NumberUtils.formatPrice(marketCap));
         mVolume24HTextView.setText(NumberUtils.formatPrice(volume24H));
         mTotalSupply.setText(NumberUtils.formatNumber(totalSupply) + " " + symbol);
 
         chart = (LineChart) findViewById(R.id.chart);
 
         presenter = new DetailPresenter(this);
-        presenter.getData("histohour", symbol, 8, 90);
+        presenter.getData(HOUR_FRAME, symbol, 8, 90);
     }
 
     void styleChart(List<Entry> entryList) {
@@ -151,16 +162,12 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         chart.setHighlightPerDragEnabled(true);
 
         chart.setBackgroundColor(Color.WHITE);
-//                chart.getAxisRight().setEnabled(false);
 
         chart.getLegend().setEnabled(false);
         chart.setDoubleTapToZoomEnabled(false);
         chart.setScaleEnabled(false);
-
-
         chart.getDescription().setEnabled(false);
 
-//                chart.setDrawMarkers(true);
         CustomMarkerView customMarkerView = new CustomMarkerView(getApplicationContext(), R.layout.highlight_textview_container);
         customMarkerView.setChartView(chart);
         chart.setMarker(customMarkerView);
@@ -182,24 +189,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                         break;
                     }
                 }
-
                 return false;
             }
         });
-        //refresh
         chart.invalidate();
     }
 
     public static void StartDetails(Context context, int rank, String name,
                                     String symbol, double price, double marketCap, double volume24H, double totalSupply) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra("total_supply", totalSupply);
-        intent.putExtra("volume_24", volume24H);
-        intent.putExtra("capital", marketCap);
-        intent.putExtra("name", name);
-        intent.putExtra("symbol", symbol);
-        intent.putExtra("rank", rank);
-        intent.putExtra("price", price);
+        intent.putExtra(TOTAL_SUPPLY, totalSupply);
+        intent.putExtra(DAY_VOLUME, volume24H);
+        intent.putExtra(MARKET_CAP, marketCap);
+        intent.putExtra(NAME, name);
+        intent.putExtra(SYMBOL, symbol);
+        intent.putExtra(RANK, rank);
+        intent.putExtra(PRICE, price);
         context.startActivity(intent);
     }
 
@@ -207,7 +212,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public void showData(List<Entry> entryList, int style, String timeUnits) {
         styleChart(entryList);
         switch (timeUnits) {
-            case "histoday":
+            case DAY_FRAME:
                 if (style <= 365) {
                     chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
                 } else {
@@ -215,24 +220,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 }
                 chart.getXAxis().setLabelCount(4);
                 break;
-            case "histohour":
-                if (style > 165) {
-                    chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
-                    chart.getXAxis().setLabelCount(4);
-                }
+
+            case HOUR_FRAME:
+                chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
+                chart.getXAxis().setLabelCount(4);
                 break;
-            case "histominute":
-                if (style < 2000) {
-                    chart.getXAxis().setValueFormatter(new TimeDateFormatter());
-                    chart.getXAxis().setLabelCount(4);
-                }
+
+            case MINUTE_FRAME:
+                chart.getXAxis().setValueFormatter(new TimeDateFormatter());
+                chart.getXAxis().setLabelCount(4);
                 break;
         }
     }
 
     @Override
     public void showErrorDialog() {
-        Toast.makeText(this, "Something went wrong...Please try later!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_LONG).show();
         this.finish();
     }
 

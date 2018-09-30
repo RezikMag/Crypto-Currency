@@ -2,7 +2,7 @@
     <string name="app_name">CryptoCurrency Exchange</string>
 
     <string name="error_message">
-        An error has occurred. Please try again by clicking REFRESH
+        An error has occurred. Please check your internet and try again by swipe down and REFRESH
     </string>
     <string name="action_search">Search</string>
     <string name="total_supply">Total supply</string>
@@ -10,5 +10,6 @@
     <string name="capitalization">Capitalization</string>
     <string name="rank">Rank</string>
     <string name="information">Information</string>
+    <string name="ok">OK</string>
 
 </resources>
