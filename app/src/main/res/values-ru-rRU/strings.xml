@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CryptoCurrency Exchange</string>
+    <string name="capitalization">Капитализация</string>
+    <string name="error_message">Не удалось обновить данные. Проверьте интернет соединение и повторите попытку.</string>
+    <string name="information">Информация</string>
+    <string name="volume_for_24h">Объем за 24ч.</string>
+    <string name="rank">Место</string>
+    <string name="total_supply">Общее количество</string>
+    <string name="action_search">Поиск</string>
+    <string name="ok">ОК</string>
+    <string name="all">ВСЕ</string>
+    <string name="_1y">1Г.</string>
+    <string name="_3m">3М.</string>
+    <string name="_1m">1М.</string>
+    <string name="_7d">7Д.</string>
+    <string name="_1d">1Д.</string>
+</resources>

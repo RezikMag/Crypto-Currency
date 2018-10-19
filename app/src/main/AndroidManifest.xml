@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/icon_chart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.wiew.MainActivity"
+        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.view.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -20,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.wiew.DetailActivity" />
+        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.view.DetailActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

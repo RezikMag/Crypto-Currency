@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange.wiew;
+package com.rezikmag.user.cryptocurrencyexchange.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +12,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rezikmag.user.cryptocurrencyexchange.CustomMarkerView;
 import com.rezikmag.user.cryptocurrencyexchange.DetailContract;
-import com.rezikmag.user.cryptocurrencyexchange.DetailPresenter;
-import com.rezikmag.user.cryptocurrencyexchange.formatters.NumberUtils;
+import com.rezikmag.user.cryptocurrencyexchange.Presenter.DetailPresenter;
+import com.rezikmag.user.cryptocurrencyexchange.view.formatters.NumberUtils;
 import com.rezikmag.user.cryptocurrencyexchange.R;
-import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashDayDateFormatter;
-import com.rezikmag.user.cryptocurrencyexchange.formatters.MonthSlashYearFormatter;
-import com.rezikmag.user.cryptocurrencyexchange.formatters.TimeDateFormatter;
+import com.rezikmag.user.cryptocurrencyexchange.view.formatters.MonthSlashDayDateFormatter;
+import com.rezikmag.user.cryptocurrencyexchange.view.formatters.MonthSlashYearFormatter;
+import com.rezikmag.user.cryptocurrencyexchange.view.formatters.TimeDateFormatter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;

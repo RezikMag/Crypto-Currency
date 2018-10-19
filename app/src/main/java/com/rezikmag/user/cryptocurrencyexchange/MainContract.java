@@ -17,14 +17,4 @@ public interface MainContract  {
         void onDestroy();
     }
 
-    /*
-    interface Repository{
-        interface  onFinishListener{
-            void loadMessage(List<CryptoData> cryptoDataArrayList);
-            void onFailure (Throwable t);
-        }
-
-        void getCoinArrayList(onFinishListener onFinishListener);
-    }
-    */
 }

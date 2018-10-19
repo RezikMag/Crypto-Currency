@@ -1,17 +1,16 @@
-package com.rezikmag.user.cryptocurrencyexchange.formatters;
+package com.rezikmag.user.cryptocurrencyexchange.view.formatters;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
-public class MonthSlashYearFormatter implements IAxisValueFormatter {
+public class MonthSlashDayDateFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
         Date date = new Date((long) value*1000);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM");
         return dateFormat.format(date);
     }
 }

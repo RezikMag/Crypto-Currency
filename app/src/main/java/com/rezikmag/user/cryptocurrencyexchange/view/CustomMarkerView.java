@@ -1,16 +1,15 @@
-package com.rezikmag.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
-import com.rezikmag.user.cryptocurrencyexchange.formatters.NumberUtils;
+import com.rezikmag.user.cryptocurrencyexchange.R;
+import com.rezikmag.user.cryptocurrencyexchange.view.formatters.NumberUtils;
 
 public class CustomMarkerView extends MarkerView {
 

@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange.wiew;
+package com.rezikmag.user.cryptocurrencyexchange.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

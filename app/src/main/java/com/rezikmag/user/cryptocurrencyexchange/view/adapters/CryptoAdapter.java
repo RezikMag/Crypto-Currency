@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange.adapters;
+package com.rezikmag.user.cryptocurrencyexchange.view.adapters;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.rezikmag.user.cryptocurrencyexchange.formatters.NumberUtils;
+import com.rezikmag.user.cryptocurrencyexchange.view.formatters.NumberUtils;
 import com.rezikmag.user.cryptocurrencyexchange.R;
 import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
 

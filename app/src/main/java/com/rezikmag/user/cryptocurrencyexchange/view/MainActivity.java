@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange.wiew;
+package com.rezikmag.user.cryptocurrencyexchange.view;
 
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -10,15 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rezikmag.user.cryptocurrencyexchange.MainContract;
-import com.rezikmag.user.cryptocurrencyexchange.MainPresenter;
+import com.rezikmag.user.cryptocurrencyexchange.Presenter.MainPresenter;
 import com.rezikmag.user.cryptocurrencyexchange.R;
 import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
-import com.rezikmag.user.cryptocurrencyexchange.adapters.CryptoAdapter;
+import com.rezikmag.user.cryptocurrencyexchange.view.adapters.CryptoAdapter;
 import com.rezikmag.user.cryptocurrencyexchange.repository.local.AppDataBase;
 
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity
 
     private CryptoAdapter mAdapter;
     private MainContract.Presenter mainPresenter;
-    private Toolbar mToolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = findViewById(R.id.my_toolbar);
+        Toolbar mToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
         RecyclerView mRecyclerView = findViewById(R.id.crypto_recycler_view);
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity
 //                        Log.d("Crypto", "OnRefresh: " + String.valueOf(mAdapter.getmDataset().size()));
                     }
                 });
-        showProgress();
+//        showProgress();
         getCoinIns();
     }
 
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mAdapter.getFilter().filter(query);
-                Log.d("Crypto", "onQueryTextSubmit " + query);
+//                Log.d("Crypto", "onQueryTextSubmit " + query);
                 searchView.clearFocus();
                 searchItem.collapseActionView();
                 return false;
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 mAdapter.getFilter().filter(newText);
-                Log.d("Crypto", "onQueryTextChange " + newText);
+//                Log.d("Crypto", "onQueryTextChange " + newText);
                 return false;
             }
         });
@@ -122,12 +120,6 @@ public class MainActivity extends AppCompatActivity
         double totalSupply = cryptoData.getTotalSupply();
 
         DetailActivity.StartDetails(this, rank, name, symbol, price, marketCap, volume24H, totalSupply);
-    }
-
-    MainPresenter createPresenter(){
-        AppDataBase localDB = AppDataBase.getInstance(getApplicationContext());
-
-        return new MainPresenter(this,localDB);
     }
 
     @Override
@@ -162,5 +154,10 @@ public class MainActivity extends AppCompatActivity
         if (this.isFinishing()) {
             mainPresenter.onDestroy();
         }
+    }
+
+    private MainPresenter createPresenter(){
+        AppDataBase localDB = AppDataBase.getInstance(getApplicationContext());
+        return new MainPresenter(this,localDB);
     }
 }

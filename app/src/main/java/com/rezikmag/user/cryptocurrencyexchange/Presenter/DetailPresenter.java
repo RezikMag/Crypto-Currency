@@ -1,8 +1,9 @@
-package com.rezikmag.user.cryptocurrencyexchange;
+package com.rezikmag.user.cryptocurrencyexchange.Presenter;
 
 import android.util.Log;
 
 import com.github.mikephil.charting.data.Entry;
+import com.rezikmag.user.cryptocurrencyexchange.DetailContract;
 import com.rezikmag.user.cryptocurrencyexchange.repository.remote.HistoryDataApi;
 import com.rezikmag.user.cryptocurrencyexchange.repository.HistoryData;
 
@@ -15,7 +16,7 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class DetailPresenter implements DetailContract.Presenter {
-    private String TAG = "DetailPresenter";
+//    private String TAG = "DetailPresenter";
     private DetailContract.View mView;
 
     private Disposable disposable;
@@ -51,7 +52,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "Complete");
+
                     }});
     }
 
