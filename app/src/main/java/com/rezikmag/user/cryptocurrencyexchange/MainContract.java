@@ -17,6 +17,7 @@ public interface MainContract  {
         void onDestroy();
     }
 
+    /*
     interface Repository{
         interface  onFinishListener{
             void loadMessage(List<CryptoData> cryptoDataArrayList);
@@ -25,4 +26,5 @@ public interface MainContract  {
 
         void getCoinArrayList(onFinishListener onFinishListener);
     }
+    */
 }

@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.rezikmag.user.cryptocurrencyexchange.ErrorDialogFragment;
 import com.rezikmag.user.cryptocurrencyexchange.MainContract;
@@ -21,6 +20,7 @@ import com.rezikmag.user.cryptocurrencyexchange.MainPresenter;
 import com.rezikmag.user.cryptocurrencyexchange.R;
 import com.rezikmag.user.cryptocurrencyexchange.repository.CryptoData;
 import com.rezikmag.user.cryptocurrencyexchange.adapters.CryptoAdapter;
+import com.rezikmag.user.cryptocurrencyexchange.repository.local.AppDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +47,12 @@ public class MainActivity extends AppCompatActivity
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         mRecyclerView.setLayoutManager(layoutManager);
+
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new CryptoAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        mainPresenter = new MainPresenter(this);
+        mainPresenter = createPresenter();
 
         //Swipe refresh initialization and set Listener
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onRefresh() {
                         getCoinIns();
-                        Log.d("Crypto", "OnRefresh: " + String.valueOf(mAdapter.getmDataset().size()));
+//                        Log.d("Crypto", "OnRefresh: " + String.valueOf(mAdapter.getmDataset().size()));
                     }
                 });
         showProgress();
@@ -124,6 +125,12 @@ public class MainActivity extends AppCompatActivity
         DetailActivity.StartDetails(this, rank, name, symbol, price, marketCap, volume24H, totalSupply);
     }
 
+    MainPresenter createPresenter(){
+        AppDataBase localDB = AppDataBase.getInstance(getApplicationContext());
+
+        return new MainPresenter(this,localDB);
+    }
+
     @Override
     public void showProgress() {
         mSwipeRefreshLayout.setRefreshing(true);
@@ -141,7 +148,6 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.add(fragment,"error dialog");
         transaction.commit();
-//        Toast.makeText(MainActivity.this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -154,6 +160,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mainPresenter.onDestroy();
+        if (this.isFinishing()) {
+            mainPresenter.onDestroy();
+        }
     }
 }

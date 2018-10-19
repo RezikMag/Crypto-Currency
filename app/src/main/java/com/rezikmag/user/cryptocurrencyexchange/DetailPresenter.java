@@ -3,7 +3,7 @@ package com.rezikmag.user.cryptocurrencyexchange;
 import android.util.Log;
 
 import com.github.mikephil.charting.data.Entry;
-import com.rezikmag.user.cryptocurrencyexchange.network.HistoryDataApi;
+import com.rezikmag.user.cryptocurrencyexchange.repository.remote.HistoryDataApi;
 import com.rezikmag.user.cryptocurrencyexchange.repository.HistoryData;
 
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ public class DetailPresenter implements DetailContract.Presenter {
                     @Override
                     public void onNext(HistoryData historyData) {
                         List<Entry> entries = new ArrayList<>();
-                        ArrayList<HistoryData.Datum> data = (ArrayList<HistoryData.Datum>) historyData.getData();
-                        for (HistoryData.Datum datum : data) {
+                        ArrayList<HistoryData.CoinData> data = (ArrayList<HistoryData.CoinData>) historyData.getData();
+                        for (HistoryData.CoinData datum : data) {
                             double price = datum.getClose();
                             long time = datum.getTime();
                             entries.add(new Entry(time, (float) price));

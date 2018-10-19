@@ -9,13 +9,13 @@ public class HistoryData {
 
     @SerializedName("Data")
     @Expose
-    private List<Datum> data;
+    private List<CoinData> data;
 
-    public List<Datum> getData() {
+    public List<CoinData> getData() {
         return data;
     }
 
-    public class Datum {
+    public class CoinData {
 
         @SerializedName("time")
         private Long time;
