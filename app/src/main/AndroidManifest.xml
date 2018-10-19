@@ -11,14 +11,16 @@
         android:roundIcon="@mipmap/icon_chart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.UI.MainActivity">
+        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.wiew.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.UI.DetailActivity"></activity>
+        <activity android:name="com.rezikmag.user.cryptocurrencyexchange.wiew.DetailActivity" />
     </application>
 
 </manifest>

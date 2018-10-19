@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange.UI;
+package com.rezikmag.user.cryptocurrencyexchange.wiew;
 
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.rezikmag.user.cryptocurrencyexchange.ErrorDialogFragment;
 import com.rezikmag.user.cryptocurrencyexchange.MainContract;
 import com.rezikmag.user.cryptocurrencyexchange.MainPresenter;
 import com.rezikmag.user.cryptocurrencyexchange.R;

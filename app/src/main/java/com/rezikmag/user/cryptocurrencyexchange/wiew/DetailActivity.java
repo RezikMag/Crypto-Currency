@@ -1,4 +1,4 @@
-package com.rezikmag.user.cryptocurrencyexchange.UI;
+package com.rezikmag.user.cryptocurrencyexchange.wiew;
 
 import android.content.Context;
 import android.content.Intent;
