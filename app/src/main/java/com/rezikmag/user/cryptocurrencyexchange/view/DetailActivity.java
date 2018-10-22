@@ -34,11 +34,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private static final String MINUTE_FRAME = "histominute";
     static final String TOTAL_SUPPLY = "total_supply";
     static final String RANK = "rank";
-   static final String SYMBOL = "symbol";
-   static final String PRICE = "price";
-   static final String NAME = "name";
-   static final String MARKET_CAP = "capital";
-   static final String DAY_VOLUME="volume_24";
+    static final String SYMBOL = "symbol";
+    static final String PRICE = "price";
+    static final String NAME = "name";
+    static final String MARKET_CAP = "capital";
+    static final String DAY_VOLUME = "volume_24";
 
     private String name;
     private ScrollView scrollView;
@@ -147,6 +147,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         xAxis.setDrawAxisLine(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setLabelCount(4);
 
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisLeft().setDrawGridLines(false);
@@ -217,17 +218,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 } else {
                     chart.getXAxis().setValueFormatter(new MonthSlashYearFormatter());
                 }
-                chart.getXAxis().setLabelCount(4);
                 break;
-
             case HOUR_FRAME:
                 chart.getXAxis().setValueFormatter(new MonthSlashDayDateFormatter());
-                chart.getXAxis().setLabelCount(4);
                 break;
 
             case MINUTE_FRAME:
                 chart.getXAxis().setValueFormatter(new TimeDateFormatter());
-                chart.getXAxis().setLabelCount(4);
                 break;
         }
     }
@@ -241,6 +238,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
+        if (this.isFinishing()) {
+            presenter.onDestroy();
+        }
     }
 }

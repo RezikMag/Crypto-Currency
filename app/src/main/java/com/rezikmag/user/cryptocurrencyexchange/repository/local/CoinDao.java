@@ -17,6 +17,6 @@ public interface CoinDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CryptoData> items);
 
-    @Query("SELECT * FROM " + DBConstant.COINS_TABLE_NAME)
+    @Query("SELECT * FROM " + DBConstant.COINS_TABLE_NAME +" ORDER by rank")
     List<CryptoData> getAll();
 }
